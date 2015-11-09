@@ -14,7 +14,7 @@ def build_line(words,start=1):
             line = word
         else:
             line = line + ' ' + word
-    return line
+    return line.decode('utf-8')
 
 def main():
     q = sys.argv
