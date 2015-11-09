@@ -68,12 +68,18 @@ def main():
                 feedback.append(tmpfeedback[i][1])
     # More than one word:
     else:
-        if q[1] in ['a','add','ls','list']: # Ignore these key words.
+        if q[1] in ['add','ls','list']: # Ignore these key words.
             line = build_line(q,2)
+            addItem = I(title="Add Todo", subtitle=line, arg=u"add {0}".format(line), valid=True)
+        if len(q[2])==1 and q[2].isalpha():
+            pri = '(' + q[2].upper() + ') '
+            line = pri + build_line(q,3)
             addItem = I(title="Add Todo", subtitle=line, arg=u"add {0}".format(line), valid=True)
         if q[1] in ['addm','addto','append','app','pri','p','del','rm','depri','dp','do']:
             # Leave other specific actions unaltered by the program.
             feedback.append(I(title="Parse to todo.sh", subtitle="Other Actions", arg=u"-f {0}".format(line), valid=True))
+            feedback.append(addItem)
+        elif q[1].isalpha():
             feedback.append(addItem)
         else:
             feedback.append(addItem)
