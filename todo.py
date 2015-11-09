@@ -48,6 +48,8 @@ def main():
         feedback = [tmpfeedback[i][1] for i in range(len(tmpfeedback))]
     # Exactly one word written.
     elif len(q)==2:
+        if q[1] in ['report']:
+            feedback.append(I(title="Generate report", subtitle="", arg=u"-f {0}".format(line), valid=True))
         if q[1] in ['archive','deduplicate']:
             # Leave other specific actions unaltered by the program.
             feedback.append(I(title="Parse to todo.sh", subtitle="Other Actions", arg=u"-f {0}".format(line), valid=True))
