@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>com.alfredapp.benignocalvo.todotxt</string>
+	<string>com.alfredapp.fumiya-nakamura.todotxt</string>
+	<key>category</key>
+	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>55DCD6F2-96C3-451B-A8EE-AE7B3E00BD4F</key>
@@ -49,9 +51,9 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Benigno Calvo Adiego</string>
+	<string>Fumiya Nakamura</string>
 	<key>description</key>
-	<string>Wrapper for todo.txt -&gt; todotxt.com</string>
+	<string>GTD with Todo.txt</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -61,21 +63,21 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
 				<key>escaping</key>
 				<integer>4</integer>
 				<key>script</key>
-				<string># Usage:
-# todo [-fhpantvV] [-d todo_config] action [task_nr] [task_desc]
-# Try 'todo -h' for more information.
+				<string># t: aliased to todo.sh -d ~/Dropbox/todo/todo.cfg
 
-TODOTXT_PATH='/usr/local/bin'
+read a1 a2 a3 &lt;&lt;&lt; "{query}"
 
-$TODOTXT_PATH/todo.sh {query} |
+t $a1 $a2 $a3 |
 while IFS= read -r line; do
   echo "$line"
 done</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>5</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
@@ -93,18 +95,27 @@ done</string>
 				<integer>4</integer>
 				<key>keyword</key>
 				<string>t</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
 				<key>runningsubtext</key>
 				<string>Searching Todos</string>
 				<key>script</key>
 				<string># Modify Path to your todo.txt file.
+TODO_TXT_PATH=~/Dropbox/todo/todo.txt
 
-python todo.py /Users/bcalvo/Dropbox/TODO/todo.txt {query} 2&gt;&amp;1 | tee todo.log</string>
+python todo.py $TODO_TXT_PATH {query} 2&gt;&amp;1 | tee todo.log</string>
 				<key>subtext</key>
-				<string>Wrapper for todo.txt</string>
+				<string>GTD with Todo.txt</string>
 				<key>title</key>
 				<string>Todo.txt</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>5</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -143,18 +154,18 @@ python todo.py /Users/bcalvo/Dropbox/TODO/todo.txt {query} 2&gt;&amp;1 | tee tod
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string># Usage:
-# todo [-fhpantvV] [-d todo_config] action [task_nr] [task_desc]
-# Try 'todo -h' for more information.
+				<string># t: aliased to todo.sh -d ~/Dropbox/todo/todo.cfg
 
-TODOTXT_PATH='/usr/local/bin'
 NUMBER=$(echo "{query}" | sed 's/do //g')
-$TODOTXT_PATH/todo.sh -f del $NUMBER</string>
+
+t -f del $NUMBER</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>5</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
@@ -165,7 +176,16 @@ $TODOTXT_PATH/todo.sh -f del $NUMBER</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string># New Feature
+
+- Add support for multibyte string
+- Add support for priority text
+- Add t report command
+
+# Credit
+
+This is originally from https://github.com/benignoc/alfred-todotxt.
+Thanks @benignoc.</string>
 	<key>uidata</key>
 	<dict>
 		<key>55DCD6F2-96C3-451B-A8EE-AE7B3E00BD4F</key>
@@ -190,6 +210,6 @@ $TODOTXT_PATH/todo.sh -f del $NUMBER</string>
 		</dict>
 	</dict>
 	<key>webaddress</key>
-	<string>www.benignocalvo.com</string>
+	<string></string>
 </dict>
 </plist>
