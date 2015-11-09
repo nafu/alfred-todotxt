@@ -8,6 +8,8 @@ import sys
 import plistlib
 import unicodedata
 import codecs
+from .core_dependencies import six
+from .core_dependencies import biplist
 
 
 gBundleID = None
@@ -80,17 +82,25 @@ def storage(join=None):
 
 
 def readPlist(path):
-    if os.path.isabs(path):
-        return plistlib.readPlist(path)
+    # With thanks to https://github.com/congalong for solving the biplist problem
+    if not os.path.isabs(path):
+        path = storage(path)
+    
+    if not isinstance(path, six.binary_type):
+        with codecs.open(path, "r", "utf-8") as f:
+            s = f.read()
+        return plistlib.readPlistFromString(s)
     else:
-        return plistlib.readPlist(storage(path))
+        return biplist.readPlist(path)
 
 
 def writePlist(obj, path):
-    if os.path.isabs(path):
-        plistlib.writePlist(obj, path)
-    else:
-        plistlib.writePlist(obj, storage(path))
+    if not os.path.isabs(path):
+        path = storage(path)
+    
+    s = plistlib.writePlistToString(obj)
+    with codecs.open(path, "w", "utf-8") as f:
+        f.write(s)
 
 
 def jsonLoad(path, default=None):
