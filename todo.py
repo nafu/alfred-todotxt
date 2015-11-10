@@ -37,6 +37,8 @@ def main():
         if len(todos):
             tmpfeedback = []
             for r in todos:
+                if not r.stlip():
+                    continue
                 if r[0] == '(' and r[2] == ')' and r[1]:
                     pri = r[1].upper()
                 else:
